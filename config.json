@@ -1,0 +1,19 @@
+{
+  "name": "Brother Label Printer",
+  "version": "1",
+  "slug": "brother_label_printer",
+  "description": "My first real add-on!",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "ports": {
+    "6060/tcp": null
+  },
+  "ports_description": {
+    "6060/tcp": "webinterface (Not required for Ingress)"
+  },
+  "webui": "http://[HOST]:[PORT:6060]/labeldesigner",
+  "usb": true,
+  "options": {},
+  "schema": {}
+}
