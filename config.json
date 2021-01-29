@@ -7,13 +7,13 @@
   "startup": "services",
   "boot": "auto",
   "ports": {
-    "6060/tcp": null
+    "8099/tcp": null
   },
   "ports_description": {
-    "6060/tcp": "webinterface (Not required for Ingress)"
+    "8099/tcp": "webinterface (Not required for Ingress)"
   },
-  "webui": "http://[HOST]:[PORT:6060]/labeldesigner",
-  "usb": true,
+  "privileged": ["SYS_MODULE", "SYS_RAWIO"],
+  "devices": ["/dev/bus/usb:/dev/bus/usb:rwm"],
   "ingress": true,
   "ingress_entry": "/labeldesigner",
   "options": {},

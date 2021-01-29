@@ -9,4 +9,4 @@ COPY . /code
 
 RUN pip install -r requirements.txt
 
-CMD ["./run.py", "--port", "6060", "--model", "PT-P700", "--default-label-size", "12"]
+CMD ["./run.py", "--port", "8099", "--model", "PT-P700", "--default-label-size", "12"]
