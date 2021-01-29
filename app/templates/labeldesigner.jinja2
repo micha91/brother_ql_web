@@ -31,14 +31,12 @@
 
                             <label for="orientation" class="control-label input-group" style="margin-top: 10px; margin-bottom: 0">Label Orientation:</label>
                             <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                                <label class="btn btn-secondary {% if default_orientation == 'standard' %}active{% endif %}" id="orientation_standard">
-                                    <input type="radio" name="orientation" onchange="preview()" value="standard" aria-label="Standard" {% if default_orientation == 'standard' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> Standard
+                                {% for orientation in available_orientations %}
+                                <label class="btn btn-secondary {% if default_orientation == orientation %}active{% endif %}" id="orientation_{{orientation}}">
+                                    <input type="radio" name="orientation" onchange="preview()" value="{{orientation}}" aria-label="{{orientation}}" {% if default_orientation == orientation %}checked{% endif %}>
+                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> {{orientation}}
                                 </label>
-                                <label class="btn btn-secondary {% if default_orientation == 'rotated' %}active{% endif %}" id="orientation_rotated">
-                                    <input type="radio" name="orientation" onchange="preview()" value="rotated" aria-label="Rotated" {% if default_orientation == 'rotated' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-vertical" aria-hidden="true"> Rotated
-                                </label>
+                                {% endfor %}
                             </div>
 
                             <label for="printColor" class="control-label input-group" style="margin-top: 10px; margin-bottom: 0">Print Color:</label>
@@ -196,6 +194,10 @@
             <label for="labelText" style="margin-top: 10px; margin-bottom: 0">Label Text:</label>
             <textarea rows="7" id="labelText" class="form-control" onChange="preview()" onInput="preview()"></textarea>
         </fieldset>
+        <fieldset class="form-group" id="groupLabelQRData">
+            <label for="labelQRData" style="margin-top: 10px; margin-bottom: 0">Label QR Data:</label>
+            <textarea rows="7" id="labelQRData" class="form-control" onChange="preview()" onInput="preview()"></textarea>
+        </fieldset>
         <fieldset class="form-group" id="groupLabelImage">
             <label style="margin-top: 10px; margin-bottom: 0">Label Image:</label>
             <form class="dropzone" id="my-awesome-dropzone">
@@ -244,6 +246,7 @@ function formData(cut_once) {
     if (text == '') text = ' ';
     return {
         text:        text,
+        qr_data:     $('#labelQRData').val(),
         font_family: $('#fontFamily option:selected').text(),
         font_style:  $('#fontStyle option:selected').text(),
         font_size:   $('#fontSize').val(),
@@ -321,11 +324,23 @@ function preview() {
 
     if($('input[name=printType]:checked').val() == 'image') {
         $('#groupLabelText').hide();
+        $('#groupLabelQRData').hide();
         $('#groupLabelImage').show()
     } else {
-        $('#groupLabelText').show();
         $('#groupLabelImage').hide();
+        if($('input[name=printType]:checked').val().includes("qrcode")) {
+            $('#groupLabelQRData').show();
+        } else {
+            $('#groupLabelQRData').hide();
+        }
+
+        if($('input[name=printType]:checked').val().includes("text")) {
+            $('#groupLabelText').show();
+        } else {
+            $('#groupLabelText').hide();
+        }
     }
+
 
     if($('input[name=printType]:checked').val() == 'image') {
         dropZoneMode = 'preview';

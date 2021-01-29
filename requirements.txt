@@ -3,3 +3,4 @@ Flask
 flask_bootstrap4
 qrcode
 pdf2image
+brother-label-printer @ git+git://github.com/micha91/labelprinterkit.git@1a8eae54827fc237ec826a12fc5e816ba9fe0dd1
