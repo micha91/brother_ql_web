@@ -168,7 +168,6 @@ def create_qr_code(text, size, correction, fill_color):
 
 def create_label_im(text, **kwargs):
     if kwargs['print_type'] == 'qrcode' or kwargs['print_type'] == 'qrcode_text':
-        print(kwargs)
         img = create_qr_code(
             kwargs['qr_data'],
             kwargs['qrcode_size'],
@@ -438,10 +437,6 @@ def main():
             **settings.CONFIG['LABEL']['DEFAULT_FONT']))
 
     # initialize bootstrap
-    app.config['BOOTSTRAP_SERVE_LOCAL'] = True
     bootstrap = Bootstrap(app)
-
-    print(settings.CONFIG)
-    print(settings.DEBUG)
 
     app.run(host=settings.CONFIG['SERVER']['HOST'], port=PORT, debug=True)

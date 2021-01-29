@@ -50,7 +50,6 @@ class PrinterWrapperPT(BasePrinterWrapper):
                 'tape_size': (float(width), 0),
                 'dots_printable': (int(P700.DPI[0] * float(width) / 25.4), 0)
             }
-        print(ret)
         return ret
 
     @property

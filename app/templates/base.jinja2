@@ -23,14 +23,13 @@
 {% endblock metas %}
 
 {% block styles %}
-    {{ super() }}
+    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/all.css">
     <!-- DropZone CSS -->
     <link rel="stylesheet" href="static/css/dropzone.min.css">
     <link rel="stylesheet" href="static/css/basic.min.css">
     <link rel="stylesheet" href="static/css/custom.css">
 {% endblock styles %}
-
-{% block title %}{{website['HTML_TITLE']}} | Brother QL{% endblock %}
 
 {% block navbar %}
     <nav class="navbar navbar-dark bg-dark">
@@ -38,11 +37,6 @@
             <a class="navbar-brand" href="">{{website['PAGE_TITLE']}}</a>
         </div>
     </nav>
-    <div class="jumbotron">
-        <div class="container">
-            {% block jumbotron %}{% endblock %}
-        </div>
-    </div>
 {% endblock navbar %}
 
 {% block content %}
