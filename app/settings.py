@@ -1,6 +1,6 @@
 import json
 
-DEBUG = False
+DEBUG = None
 CONFIG = None
 
 

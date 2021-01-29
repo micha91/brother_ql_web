@@ -125,8 +125,8 @@ def get_label_context(request):
     def get_font_path(font_family_name, font_style_name):
         try:
             if font_family_name is None or font_style_name is None:
-                font_family_name = settings.CONFIG['LABEL']['DEFAULT_FONTS']['family']
-                font_style_name = settings.CONFIG['LABEL']['DEFAULT_FONTS']['style']
+                font_family_name = settings.CONFIG['LABEL']['DEFAULT_FONT']['family']
+                font_style_name = settings.CONFIG['LABEL']['DEFAULT_FONT']['style']
             font_path = FONTS.fonts[font_family_name][font_style_name]
         except KeyError:
             raise LookupError("Couln't find the font & style")
@@ -272,7 +272,7 @@ def assemble_label_im(text, image, include_text, **kwargs):
 
 @app.route('/api/font/styles', methods=['POST', 'GET'])
 def get_font_styles():
-    font = request.values.get('font', settings.CONFIG['LABEL']['DEFAULT_FONTS'][0]['family'])
+    font = request.values.get('font', settings.CONFIG['LABEL']['DEFAULT_FONT']['family'])
     return FONTS.fonts[font]
 
 
@@ -372,7 +372,7 @@ def main():
     else:
         LOGLEVEL = settings.CONFIG['SERVER']['LOGLEVEL']
 
-    if LOGLEVEL == 'settings.DEBUG':
+    if LOGLEVEL == 'DEBUG':
         settings.DEBUG = True
     else:
         settings.DEBUG = False
@@ -400,7 +400,7 @@ def main():
 
     else:
         PRINTER = PrinterWrapperQL(parser)
-        settings.CONFIG['LABEL']['AVAILABLE_ORIENTATION'] = ['rotated, standard']
+        settings.CONFIG['LABEL']['AVAILABLE_ORIENTATION'] = ['rotated', 'standard']
 
     if settings.CONFIG['LABEL']['DEFAULT_SIZE'] not in PRINTER.label_sizes:
         parser.error("Invalid --default-label-size. Please choose on of the following:\n:" + " ".join(PRINTER.label_sizes))
@@ -424,21 +424,24 @@ def main():
 
     for font in settings.CONFIG['LABEL']['DEFAULT_FONTS']:
         if font['family'] in FONTS.fonts.keys() and font['style'] in FONTS.fonts[font['family']].keys():
-            settings.CONFIG['LABEL']['DEFAULT_FONTS'] = font
+            settings.CONFIG['LABEL']['DEFAULT_FONT'] = font
             logger.debug("Selected the following default font: {}".format(font))
             break
         else:
             pass
-    if settings.CONFIG['LABEL']['DEFAULT_FONTS'] is None:
+    if settings.CONFIG['LABEL'].get('DEFAULT_FONT', None) is None:
         sys.stderr.write('Could not find any of the default fonts. Choosing a random one.\n')
         family = random.choice(list(FONTS.fonts.keys()))
         style = random.choice(list(FONTS.fonts[family].keys()))
-        settings.CONFIG['LABEL']['DEFAULT_FONTS'] = {'family': family, 'style': style}
+        settings.CONFIG['LABEL']['DEFAULT_FONT'] = {'family': family, 'style': style}
         sys.stderr.write('The default font is now set to: {family} ({style})\n'.format(
-            **settings.CONFIG['LABEL']['DEFAULT_FONTS']))
+            **settings.CONFIG['LABEL']['DEFAULT_FONT']))
 
     # initialize bootstrap
     app.config['BOOTSTRAP_SERVE_LOCAL'] = True
     bootstrap = Bootstrap(app)
+
+    print(settings.CONFIG)
+    print(settings.DEBUG)
 
     app.run(host=settings.CONFIG['SERVER']['HOST'], port=PORT, debug=True)
