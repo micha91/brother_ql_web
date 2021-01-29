@@ -4,7 +4,7 @@
   "slug": "brother_label_printer",
   "description": "My first real add-on!",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-  "startup": "application",
+  "startup": "services",
   "boot": "auto",
   "ports": {
     "6060/tcp": null
@@ -14,6 +14,8 @@
   },
   "webui": "http://[HOST]:[PORT:6060]/labeldesigner",
   "usb": true,
+  "ingress": true,
+  "ingress_entry": "/labeldesigner",
   "options": {},
   "schema": {}
 }
