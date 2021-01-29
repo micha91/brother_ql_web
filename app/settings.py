@@ -8,8 +8,8 @@ def init():
     global DEBUG, CONFIG
 
     try:
-        with open('config.json', encoding='utf-8') as fh:
+        with open('app-config/config.json', encoding='utf-8') as fh:
             CONFIG = json.load(fh)
     except FileNotFoundError as e:
-        with open('config.example.json', encoding='utf-8') as fh:
+        with open('app-config/config.example.json', encoding='utf-8') as fh:
             CONFIG = json.load(fh)
